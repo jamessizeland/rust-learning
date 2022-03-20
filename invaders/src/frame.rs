@@ -1,4 +1,6 @@
-pub type Frame Vec<Vec<& 'static str>> // vector of vector of borrowed static string slices :o
+use crate::{NUM_COLS, NUM_ROWS};
+
+pub type Frame = Vec<Vec<&'static str>>; // vector of vector of borrowed static string slices :o
 
 pub fn new_frame() -> Frame {
     // vector of vectors
@@ -13,6 +15,6 @@ pub fn new_frame() -> Frame {
     cols // vector of vectors (2D array of play area)
 }
 
-pub trail Drawable {
+pub trait Drawable {
     fn draw(self, frame: &mut Frame);
 }
