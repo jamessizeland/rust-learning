@@ -14,6 +14,7 @@ use std::{
 
 use invaders::{
     frame::{self, new_frame, Drawable, Frame},
+    player::Player,
     render,
 };
 
@@ -52,13 +53,24 @@ fn main() -> Result<(), Box<dyn Error>> {
     });
 
     // Game Loop
+    let mut player = Player::new();
+    let mut instant = Instant::now(); // record start-time for frame
     'gameloop: loop {
         // Per-frame init
-        let curr_frame = new_frame();
+        let delta = instant.elapsed(); // how long since last frame started
+        instant = Instant::now(); // update start-time to now
+        let mut curr_frame = new_frame();
         // Input
         while event::poll(Duration::default())? {
             if let Event::Key(key_event) = event::read()? {
                 match key_event.code {
+                    KeyCode::Left => player.move_left(),
+                    KeyCode::Right => player.move_right(),
+                    KeyCode::Char(' ') | KeyCode::Enter => {
+                        if player.shoot() {
+                            audio.play("pew");
+                        }
+                    }
                     KeyCode::Esc | KeyCode::Char('q') => {
                         // exited the game early, so lose
                         audio.play("lose");
@@ -69,7 +81,11 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         }
 
+        // Updates
+        player.update(delta);
+
         // Draw & render
+        player.draw(&mut curr_frame);
         let _ = render_tx.send(curr_frame); // this will start before the rx, so set up to ignore errors
         pause_ms(1); // rate limit our render output
     }
