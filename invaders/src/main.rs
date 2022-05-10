@@ -14,8 +14,9 @@ use std::{
 
 use invaders::{
     frame::{self, new_frame, Drawable, Frame},
+    invaders::Invaders,
     player::Player,
-    render, invaders::Invaders,
+    render,
 };
 
 // main function starts here!
@@ -91,10 +92,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         // Draw & render
         // player.draw(&mut curr_frame);
         // invaders.draw(&mut curr_frame);
-        let drawables: Vec<&dyn Drawable> = vec![&player, &invaders];
+        let drawables: Vec<&dyn Drawable> = vec![&player, &invaders]; // generic with a trait that replaces all of the drawable traits
         for drawable in drawables {
             drawable.draw(&mut curr_frame)
-        };
+        }
         let _ = render_tx.send(curr_frame); // this will start before the rx, so set up to ignore errors
         pause_ms(1); // rate limit our render output
     }
