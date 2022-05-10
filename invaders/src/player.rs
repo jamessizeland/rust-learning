@@ -1,3 +1,4 @@
+use crate::invaders::Invaders;
 use crate::shot::Shot;
 use crate::{
     frame::{Drawable, Frame},
@@ -47,6 +48,21 @@ impl Player {
             shot.update(delta);
         }
         self.shots.retain(|shot| !shot.dead());
+    }
+    pub fn detect_hits(&mut self, invaders: &mut Invaders) -> bool {
+        // did we hit something?
+        let mut hit_something = false;
+        for shot in self.shots.iter_mut() {
+            if !shot.exploding {
+                // exploding shot doesn't get to hit another invader
+                if invaders.kill_invader_at(shot.x, shot.y) {
+                    // check if our shot collides with invader
+                    hit_something = true;
+                    shot.explode();
+                }
+            }
+        }
+        hit_something
     }
 }
 
