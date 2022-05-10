@@ -88,16 +88,27 @@ fn main() -> Result<(), Box<dyn Error>> {
         if invaders.update(delta) {
             audio.play("move");
         }
+        if player.detect_hits(&mut invaders) {
+            audio.play("explode");
+        }
 
         // Draw & render
-        // player.draw(&mut curr_frame);
-        // invaders.draw(&mut curr_frame);
         let drawables: Vec<&dyn Drawable> = vec![&player, &invaders]; // generic with a trait that replaces all of the drawable traits
         for drawable in drawables {
             drawable.draw(&mut curr_frame)
         }
         let _ = render_tx.send(curr_frame); // this will start before the rx, so set up to ignore errors
         pause_ms(1); // rate limit our render output
+
+        // Win or Lose?
+        if invaders.all_killed() {
+            audio.play("win");
+            break 'gameloop;
+        }
+        if invaders.reached_bottom() {
+            audio.play("lose");
+            break 'gameloop;
+        }
     }
 
     // Cleanup

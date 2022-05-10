@@ -86,7 +86,7 @@ impl Invaders {
     }
     pub fn reached_bottom(&self) -> bool {
         // lose condition
-        self.army.iter().map(|invader| invader.y).min().unwrap_or(0) >= NUM_ROWS - 1
+        self.army.iter().map(|invader| invader.y).max().unwrap_or(0) >= NUM_ROWS - 1
     }
     pub fn kill_invader_at(&mut self, x: usize, y: usize) -> bool {
         // attempt to kill an invader
