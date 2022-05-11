@@ -1,12 +1,13 @@
 use crate::frame::Frame;
 use crossterm::{
     cursor::MoveTo,
-    style::{Color, SetBackgroundColor, SetForegroundColor},
+    style::{Color, SetBackgroundColor},
     terminal::{Clear, ClearType},
     QueueableCommand,
 };
 use std::io::{Stdout, Write};
 
+/// update to the screen everything we've queued
 pub fn render(stdout: &mut Stdout, last_frame: &Frame, curr_frame: &Frame, force: bool) {
     if force {
         // force render entire frame
@@ -24,5 +25,5 @@ pub fn render(stdout: &mut Stdout, last_frame: &Frame, curr_frame: &Frame, force
             }
         }
     }
-    stdout.flush().unwrap(); // update to the screen everything we've queued
+    stdout.flush().unwrap();
 }

@@ -80,16 +80,16 @@ impl Invaders {
         }
         false
     }
+    /// win condition
     pub fn all_killed(&self) -> bool {
-        // win condition
         self.army.is_empty()
     }
+    /// lose condition
     pub fn reached_bottom(&self) -> bool {
-        // lose condition
         self.army.iter().map(|invader| invader.y).max().unwrap_or(0) >= NUM_ROWS - 1
     }
+    /// attempt to kill an invader
     pub fn kill_invader_at(&mut self, x: usize, y: usize) -> bool {
-        // attempt to kill an invader
         if let Some(index) = self
             .army
             .iter()

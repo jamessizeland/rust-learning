@@ -32,9 +32,9 @@ impl Shot {
         self.exploding = true;
         self.timer = Timer::from_millis(250); // long enough to see the explosion
     }
-    pub fn dead(&self) -> bool {
-        // check if the shot should be cleaned up,
-        // only need to read self, not write so no mut
+    /// check if the shot should be cleaned up,
+    /// only need to read self, not write so no mut
+    pub fn dead(&self) -> bool {   
         (self.exploding && self.timer.ready) || (self.y == 0)
     }
 }

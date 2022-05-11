@@ -12,8 +12,9 @@ pub struct Player {
     shots: Vec<Shot>,
 }
 
+/// This is the players avater on the screen
 impl Player {
-    // make a new player
+    /// make a new player
     pub fn new() -> Self {
         Self {
             // return a player
@@ -34,9 +35,9 @@ impl Player {
             self.x += 1;
         }
     }
+    /// spawn new shot just above the player
     pub fn shoot(&mut self) -> bool {
         if self.shots.len() < 2 {
-            // spawn new shot just above the player
             self.shots.push(Shot::new(self.x, self.y - 5));
             true // successfully shot
         } else {
@@ -49,8 +50,8 @@ impl Player {
         }
         self.shots.retain(|shot| !shot.dead());
     }
+    /// did we hit something?
     pub fn detect_hits(&mut self, invaders: &mut Invaders) -> bool {
-        // did we hit something?
         let mut hit_something = false;
         for shot in self.shots.iter_mut() {
             if !shot.exploding {

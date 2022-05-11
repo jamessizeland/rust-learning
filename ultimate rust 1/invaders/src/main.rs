@@ -7,19 +7,19 @@ use crossterm::{
 use rusty_audio::Audio;
 use std::{
     error::Error,
-    sync::mpsc::{self, Receiver},
+    sync::mpsc::{self},
     time::{Duration, Instant},
     {io, thread},
 };
 
 use invaders::{
-    frame::{self, new_frame, Drawable, Frame},
+    frame::{new_frame, Drawable},
     invaders::Invaders,
     player::Player,
     render,
 };
 
-// main function starts here!
+/// main function for the game loop
 fn main() -> Result<(), Box<dyn Error>> {
     let mut audio = Audio::new();
     audio.add("explode", "assets/sounds/explode.wav");
@@ -121,7 +121,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-// helper functions
+/// helper function
 fn pause_ms(ms: u64) {
     thread::sleep(Duration::from_millis(ms));
 }

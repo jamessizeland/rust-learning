@@ -2,34 +2,69 @@
 #[allow(unused_mut)]
 
 fn main() {
+    let v = vec![6, 7, 8];
+    v.into_iter().for_each(|num| println!("{}", num));
+    // println!("{}", v[0]); // fails because into_iter takes ownership of v
+
+    let q = vec![6, 7, 8];
+    let a = q
+        .into_iter()
+        .map(|x| x * 3)
+        .filter(|y| *y % 2 == 0)
+        .sum::<i32>()
+        > 5;
+    println!("{}", a);
+    let r = vec![6, 7, 8];
+    let r2: Vec<_> = r
+        .into_iter()
+        .map(|x| x * 3)
+        .filter(|y| *y % 2 == 0)
+        .collect();
+    println!("{:?}", r2);
+    /*
+    ITERATORS
+
+    vec.into_iter()     // consumes vec and returns owned items
+    for _ in vec
+
+    vec.iter()          // returns immutable references
+    for _ in &vec
+
+    vec.iter_mut()      // returns mutable references
+    for _ in &mut vec
+
+    ------
+    vec.drain(..) // take ownership of some elements of a collection
+    */
+
     // 1. Uncomment the code below. Create a closure that returns the square of an integer (the
     // number multiplied by itself), and assign the closure to the "square" variable. Then run the
     // code and make sure it works.
 
-    // let square = ...
-    // println!("5 squared is {}", square(5));
+    let square = |num| num * num;
+    println!("5 squared is {}", square(5));
 
     // 2. Uncomment the code below.  Finish the .map() iterator adaptor call by passing it a closure
     // which takes a tuple of two integers as a parameter, and returns a tuple with the first
     // integer incremented by 1, and the second integer left alone.  For example, if given the input
     // (0, 1), it should return (1, 1). Run the code and make sure it works.
 
-    // let pairs = vec![(0, 1), (2, 3), (4, 5)];
-    // pairs
-    //     .into_iter()
-    //     .map( ... )
-    //     .for_each(|t| println!("{:?}", t));
+    let pairs = vec![(0, 1), (2, 3), (4, 5)];
+    pairs
+        .into_iter()
+        .map(|x| (x.0 + 1, x.1))
+        .for_each(|t| println!("{:?}", t));
 
     // 3. Uncomment the code below. There is a mutable vector named `numbers`. Use an iterator over
     // mutable references to multiply each of the values in `numbers` by 3.
     // Hint 1: You'll need .iter_mut() -- bonus points if you use the shorter, syntactic sugar form!
     // Hint 2: `x` will be a mutable reference, so remember to dereference it to use it
 
-    // let mut numbers = vec![1, 2, 3, 4];
-    // for x in ... {
-    //     ... // multiply the value by 3 via the mutable reference x
-    // }
-    // println!("{:?}", numbers); // should print [3, 6, 9, 12]
+    let mut numbers = vec![1, 2, 3, 4];
+    for x in &mut numbers {
+        *x *= 3 // multiply the value by 3 via the mutable reference x
+    }
+    println!("{:?}", numbers); // should print [3, 6, 9, 12]
 
     // 4. Uncomment the code below.  Take the vector of words and
     // - Convert the vector into an iterator with .into_iter()
@@ -39,9 +74,13 @@ fn main() {
     //
     // Hint: .to_uppercase() is a method on `str` which returns a String
 
-    // let words = vec!["autobot", "beach", "car", "decepticon", "energon", "frothy"];
-    // let transformed...  // do the stuff here
-    // println!("Transformed: {:?}", transformed);
+    let words = vec!["autobot", "beach", "car", "decepticon", "energon", "frothy"];
+    let transformed: Vec<_> = words
+        .into_iter()
+        .filter(|w| !w.contains("h"))
+        .map(|w| w.to_uppercase())
+        .collect(); // do the stuff here
+    println!("Transformed: {:?}", transformed);
 
     // Challenge:
     //
