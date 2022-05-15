@@ -1,4 +1,4 @@
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Cake {
     Chocolate,
     MapleBacon,
@@ -39,14 +39,14 @@ fn main() {
     //
     impl Default for Party {
         fn default() -> Self {
-            Party {
+            Self {
                 at_restaurant: true,
                 num_people: 8,
                 cake: Cake::Chocolate,
             }
         }
     }
-    
+
     //
     // Hint: If you get stuck, there is an example at
     // https://doc.rust-lang.org/std/default/trait.Default.html#how-can-i-implement-default
@@ -92,7 +92,16 @@ fn main() {
     // - Implement `From<Party> for Cake` so that the function call below works.
     //
 
-    // smell_cake(party);
+    // From<T> for U
+    // Into<U> for T
+    impl From<&Party> for Cake {
+        // use immuable reference so we don't consume the party struct when we smell it
+        fn from(party: &Party) -> Self {
+            party.cake.clone()
+        }
+    }
+
+    smell_cake(&party);
 
     // Challenge 2: Implement `From<&Party> for Cake` so that you can smell your cake without
     // consuming it. Change the code above to pass in a &party. Then uncomment and run the code
@@ -106,6 +115,6 @@ pub fn admire_cake(cake: Cake) {
     println!("What a nice {:?} cake! 🎂", cake);
 }
 
-// pub fn smell_cake<T: Into<Cake>>(something: T) {
-//     println!("Hmm...something smells like a {:?} cake!", something.into());
-// }
+pub fn smell_cake<T: Into<Cake>>(something: T) {
+    println!("Hmm...something smells like a {:?} cake!", something.into());
+}
