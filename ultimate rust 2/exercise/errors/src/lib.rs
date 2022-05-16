@@ -1,3 +1,37 @@
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+#[non_exhaustive]
+pub enum PuzzleError {
+    #[error("Piece {0} doesn't fit!")]
+    Wontfit(u16),
+    #[error("Missing a piece")]
+    MissingPiece,
+}
+
+//* this is the long way without the 'thiserror' crate we have imported */
+// use std::error::Error;
+// use std::fmt::{Display, Formatter};
+//
+// #[derive(Debug)]
+// #[non_exhaustive]
+// pub enum PuzzleError {
+//     Wontfit(u16),
+//     MissingPiece,
+// }
+//
+// impl Display for PuzzleError {
+//     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+//         use PuzzleError::*;
+//         match self {
+//             MissingPiece => write!(f, "Missing a piece"),
+//             Wontfit(n) => write!(f, "Piece {} doesn't fit!", n),
+//         }
+//     }
+// }
+// impl Error for PuzzleError {}
+//
+
 // 1. Create a DolphinError type representing the following three conditions:
 // - Hungry - The dolphin is hungry
 // - TooYoung - The dolphin is too young
@@ -14,7 +48,16 @@
 // Once you have completed defining the error type correctly, you should be able to run
 // `cargo build --lib` without any build errors or warnings. Then go to main.rs and continue with #2
 
-// pub enum DolphinError...
+#[derive(Debug, Error)]
+#[non_exhaustive]
+pub enum DolphinError {
+    #[error("The dolphin is hungry")]
+    Hungry,
+    #[error("The dolphin is too young")]
+    TooYoung,
+    #[error("The dolphin's name is too long and annoying to say")]
+    LongName,
+}
 
 pub struct Dolphin {
     pub name: String,
