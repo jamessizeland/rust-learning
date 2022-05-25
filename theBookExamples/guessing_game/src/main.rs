@@ -1,5 +1,6 @@
+use std::cmp::Ordering;
+use rand::Rng; // The Rng trait defines methods that random number generators implement, and this trait must be in scope for us to use those methods.
 use std::io;
-use rand::Rng;
 
 /// guessing game
 
@@ -22,5 +23,15 @@ fn main() {
         .read_line(&mut guess)
         .expect("Failed to read line");
 
+    let guess: u32 = guess.trim().parse().expect("Please type a number");
+
     println!("You guessed {}", guess);
+
+    // match against the guess
+    // A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm’s pattern.
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("too small"),
+        Ordering::Equal => println!("you win!"),
+        Ordering::Greater => println!("too large!"),
+    }
 }
