@@ -13,7 +13,7 @@ fn main() {
 
     let secret_number = rand::thread_rng().gen_range(1..=100); // this type is infered to be u32 because of the match comparison with guess later!
 
-    println!("The secret number is: {}", secret_number);
+    // println!("The secret number is: {}", secret_number);
     loop {
 
         println!("Please input your guess:");
