@@ -13,6 +13,7 @@ pub fn splish(a: i32, b: i32) -> i32 {
 
 // 1. Use the `cfg` attribute to mark the `test` module below as a test module
 
+#[cfg(test)] // tells compiler to only bundle this module in testing
 mod test {
     // 2. Bring all the library items into scope with a `use` statement
     // Hint: It's okay to use `*` here.
