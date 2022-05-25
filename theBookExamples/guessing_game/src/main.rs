@@ -14,24 +14,29 @@ fn main() {
     let secret_number = rand::thread_rng().gen_range(1..=100); // this type is infered to be u32 because of the match comparison with guess later!
 
     println!("The secret number is: {}", secret_number);
+    loop {
 
-    println!("Please input your guess:");
+        println!("Please input your guess:");
+        
+        let mut guess = String::new();
 
-    let mut guess = String::new();
-
-    io::stdin()
+        io::stdin()
         .read_line(&mut guess)
         .expect("Failed to read line");
 
-    let guess: u32 = guess.trim().parse().expect("Please type a number"); // Shadowing lets us reuse the guess variable name rather than forcing us to create two unique variables
+        let guess: u32 = guess.trim().parse().expect("Please type a number"); // Shadowing lets us reuse the guess variable name rather than forcing us to create two unique variables
 
-    println!("You guessed {}", guess);
+        println!("You guessed {}", guess);
 
-    // match against the guess
-    // A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm’s pattern.
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("too small"),
-        Ordering::Equal => println!("you win!"),
-        Ordering::Greater => println!("too large!"),
+        // match against the guess
+        // A match expression is made up of arms. An arm consists of a pattern to match against, and the code that should be run if the value given to match fits that arm’s pattern.
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("too small"),
+            Ordering::Equal => {
+                println!("you win!");
+                break;
+            },
+            Ordering::Greater => println!("too large!"),
+        }
     }
 }
