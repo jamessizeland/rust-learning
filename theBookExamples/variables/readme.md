@@ -81,3 +81,9 @@ A tuple is a general way of grouping together a number of values with a variety 
 Each position in the tuple has a type, and the types of the different values in the tuple don’t have to be the same.
 
 The tuple without any values, (), is a special type that has only one value, also written (). The type is called the unit type and the value is called the unit value. **Expressions implicitly return the unit value if they don’t return any other value.**
+
+### Array
+
+Unlike a tuple, every element of an array must have the same type. Arrays are useful when you want your data allocated on the stack rather than the heap or when you want to ensure you **always have a fixed number of elements**.
+
+An array isn’t as flexible as the vector type, though. A vector is a similar collection type provided by the standard library that is allowed to grow or shrink in size. If you’re unsure whether to use an array or a vector, chances are you should use a vector.
