@@ -40,7 +40,7 @@ Length | Signed | Unsigned |
 arch | isize | usize
 
 Number literals | Example |
----|---|---|
+----------------|---------|
 Decimal | 98_222
 Hex | 0xff
 Octal | 0o77
